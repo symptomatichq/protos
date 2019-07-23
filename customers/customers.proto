@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package customers;
+
+option go_package = "customers";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+option (gogoproto.sizer_all) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+
+message Account {
+  enum Status {
+    INACTIVE = 0;
+    ACTIVE = 1;
+    SUSPENDED = 2;
+  }
+
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  string name = 2;
+  string contact_email = 3;
+  Account.Status status = 4;
+  google.protobuf.Timestamp updated_at = 5
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+  google.protobuf.Timestamp created_at = 6
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+}
+
+message CreateAccountRequest {
+  string name = 1;
+  string contact_email = 2;
+}
+
+message CreateAccountResponse {
+  Account account = 1 [(gogoproto.nullable) = false];
+}
+
+message GetAccountRequest {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  string name = 2;
+}
+
+message GetAccountResponse {
+  Account account = 1 [(gogoproto.nullable) = false];
+}
+
+message FetchAccountsRequest {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  sint32 page = 2;
+  sint32 page_size = 3;
+}
+
+message FetchAccountsResponse {
+  repeated Account accounts = 1;
+}
+
+message User {
+    enum Status {
+      INACTIVE = 0;
+      ACTIVE = 1;
+      SUSPENDED = 2;
+    }
+
+    string id = 1 [ (gogoproto.customname) = "ID" ];
+    string name = 2;
+    string emasil = 3;
+    User.Status status = 4;
+    google.protobuf.Timestamp updated_at = 5
+        [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+    google.protobuf.Timestamp created_at = 6
+        [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+    google.protobuf.Timestamp last_login = 7 [ (gogoproto.stdtime) = true ];
+  }
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+}
+
+message CreateUserResponse {
+  User user = 1 [(gogoproto.nullable) = false];
+}
+
+message GetUserRequest {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  string name = 2;
+}
+
+message GetUserResponse {
+  User user = 1 [(gogoproto.nullable) = false];
+}
+
+message FetchUsersRequest {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  sint32 page = 2;
+  sint32 page_size = 3;
+}
+
+message FetchUsersResponse {
+  repeated User users = 1;
+}
+
+service Accounts {
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {}
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {}
+  rpc FetchAccounts(FetchAccountsRequest) returns (FetchAccountsResponse) {}
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+  rpc FetchUsers(FetchUsersRequest) returns (FetchUsersResponse) {}
+}

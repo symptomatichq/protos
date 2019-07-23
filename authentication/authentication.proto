@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package authentication;
+
+option go_package = "authentication";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+option (gogoproto.sizer_all) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+
+
+message AuthenticateUserRequest {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+}
+
+message AuthenticateUserResponse {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  bool authenticated = 2;
+  google.protobuf.Timestamp last_login = 3 [ (gogoproto.stdtime) = true ];
+}
+
+service Authentication {
+  rpc AuthenticateUser(AuthenticateUserRequest) returns (AuthenticateUserResponse) {}
+}

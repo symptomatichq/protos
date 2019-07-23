@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package emails;
+
+option go_package = "emails";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+option (gogoproto.sizer_all) = true;
+option (gogoproto.marshaler_all) = true;
+option (gogoproto.unmarshaler_all) = true;
+
+message EmailRecipient {
+  string name = 1;
+  string email_address = 2;
+}
+
+message SendEmailRequest {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  repeated EmailRecipient recipients = 2 [ (gogoproto.nullable) = false ];
+  string html_content = 3;
+  string text_content = 4;
+  // Delivery time in UTC, immediate if null
+  google.protobuf.Timestamp deliver_at = 5 [ (gogoproto.stdtime) = true ];
+}
+
+message SendEmailResponse {
+  string id = 1 [ (gogoproto.customname) = "ID" ];
+  bool sent = 2;
+  bool scheduled = 3;
+  google.protobuf.Timestamp scheduled_at = 4
+      [ (gogoproto.stdtime) = true, (gogoproto.nullable) = false ];
+}
+
+service Emails {
+  rpc SendEmail(SendEmailRequest) returns (SendEmailResponse) {}
+}

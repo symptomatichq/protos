@@ -75,8 +75,9 @@ message User {
   }
 
 message CreateUserRequest {
-  string name = 1;
-  string email = 2;
+  string account_id = 1 [ (gogoproto.customname) = "AccountID" ];
+  string name = 2;
+  string email = 3;
 }
 
 message CreateUserResponse {

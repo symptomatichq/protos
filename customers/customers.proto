@@ -53,7 +53,7 @@ message FetchAccountsRequest {
 }
 
 message FetchAccountsResponse {
-  repeated Account accounts = 1;
+  repeated Account accounts = 1 [(gogoproto.nullable) = false ];
 }
 
 message User {
@@ -100,7 +100,7 @@ message FetchUsersRequest {
 }
 
 message FetchUsersResponse {
-  repeated User users = 1;
+  repeated User users = 1 [(gogoproto.nullable) = false ];
 }
 
 service Customers {

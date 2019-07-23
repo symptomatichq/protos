@@ -102,7 +102,7 @@ message FetchUsersResponse {
   repeated User users = 1;
 }
 
-service Accounts {
+service Customers {
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {}
   rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {}
   rpc FetchAccounts(FetchAccountsRequest) returns (FetchAccountsResponse) {}
